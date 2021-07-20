@@ -1,15 +1,17 @@
 // { Driver Code Starts
+//Initial Template for C++
+
 #include <bits/stdc++.h>
 using namespace std;
 
-/* A binary tree node has data, pointer to left child
-   and a pointer to right child */
+// Tree Node
 struct Node
 {
     int data;
-    struct Node* left;
-    struct Node* right;
+    Node* left;
+    Node* right;
 };
+
 // Utility function to create a new Tree Node
 Node* newNode(int val)
 {
@@ -19,64 +21,6 @@ Node* newNode(int val)
     temp->right = NULL;
     
     return temp;
-}
-
- // } Driver Code Ends
-/* A binary tree Node
-
-struct Node
-{
-    int data;
-    struct Node* left;
-    struct Node* right;
-    
-    Node(int x){
-        data = x;
-        left = right = NULL;
-    }
-};
- */
-
-
-class Solution
-{
-    public:
-    //Function to return the level order traversal of a tree.
-    vector<int> levelOrder(Node* node)
-    {
-      queue <Node*> q;
-      vector <int> v;
-      if(node == NULL) return v;
-      q.push(node);
-      
-      while(!q.empty()){
-          Node *temp=q.front();
-          q.pop();
-          v.push_back(temp->data);
-          if(temp->left) q.push(temp->left);
-          if(temp->right) q.push(temp->right);
-          
-          
-      }
-      return v;
-      
-    }
-};
-
-// { Driver Code Starts.
-
-/* Helper function to test mirror(). Given a binary
-   search tree, print out its data elements in
-   increasing sorted order.*/
-void inOrder(struct Node* node)
-{
-  if (node == NULL)
-    return;
-
-  inOrder(node->left);
-  printf("%d ", node->data);
-
-  inOrder(node->right);
 }
 
 // Function to Build Tree
@@ -143,23 +87,52 @@ Node* buildTree(string str)
     return root;
 }
 
+/* Computes the number of nodes in a tree. */
+vector <int> postOrder(struct Node* root);
+
 /* Driver program to test size function*/
 int main()
 {
   int t;
-  scanf("%d ",&t);
+  cin>>t;
+  getchar();
   while (t--)
   {
-        string s;
-		getline(cin,s);
-		Node* root = buildTree(s);
-		Solution ob;
-        vector <int> res = ob.levelOrder(root);
-        for (int i : res) cout << i << " ";
-        cout << endl;
+  	 string inp;
+     getline(cin, inp);
+     struct Node* root = buildTree(inp);
+
+     vector <int> res = postOrder(root);
+     for (int i = 0; i < res.size (); i++)
+        cout << res[i] << " ";
+     cout << endl;
   }
   return 0;
+}// } Driver Code Ends
+
+
+//User function Template for C++
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child  
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+}; */
+
+//Function to return a list containing the postorder traversal of the tree.
+void sol(Node *root, vector <int> &v){
+    if(root){
+        sol(root->left,v);
+        sol(root->right,v);
+        v.push_back(root->data);
+    }
 }
-
-
-  // } Driver Code Ends
+vector <int> postOrder(Node* root)
+{
+  vector <int> v;
+  sol(root,v);
+  return v;
+}
